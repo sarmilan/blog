@@ -1,13 +1,33 @@
 ---
-title: My Second Post!
-date: "2015-05-06T23:46:37.121Z"
+title: How to bring a new product to market?
+date: "2021-02-28T23:46:37.121Z"
 ---
 
-Wow! I love blogging so much already.
+#How to bring a new product to market?#
 
-Did you know that "despite its name, salted duck eggs can also be made from
-chicken eggs, though the taste and texture will be somewhat different, and the
-egg yolk will be less rich."?
-([Wikipedia Link](https://en.wikipedia.org/wiki/Salted_duck_egg))
+###The lean product 6 step method###
 
-Yeah, I didn't either.
+1. Taget customer
+
+2. Identify underserved customer needs / market problems
+
+3. Define value proposition (what is that, anyways?)
+
+4. Specify MVP feature set
+
+5. Create your prototype
+
+6. Test prototype with customers
+
+###The Product-Market Fit###
+
+The Product:
+    1. UX
+    2. Feature Set
+    3. Value Proposition
+
+    **^ Product Market Fit ^**
+
+The Market:
+    1. Underserved Needs
+    2. Target Customer

@@ -1,9 +1,3 @@
----
-title: Understanding State
-date: "2021-03-14T21:54:14Z"
-description: "Learn about state and why it's important in client-server communication and data persistance."
----
-
 # User Flow
 1. User lands on app
 2. User is able to see list of recipes, for example 5 recipes
@@ -13,6 +7,9 @@ description: "Learn about state and why it's important in client-server communic
 6. App is able to sort songs in a playlist in order of total number of likes
 
 Think of decoupling as a good practice
+
+We want to describe how our software system should be developed <sup id="a1">[1](#f1)</sup>
+  
 
 Browser
   - client
@@ -39,6 +36,8 @@ Database
   - cron jobs
     - every 1 hour, pull data from mysql, and push to mongodb
     - replication
+
+
 
 
 In any given point in time, there is a different information stored in the memory of your web application that you can access via your variables, classes, data structures, etc. All the stored information, at a given instant in time, is called the application state.
@@ -146,11 +145,12 @@ User
 App
    - view recipes
    - functions
-     - viewRecipes(:id)
+     - login
    - models
      - recipes
      - playlist
      - song
+     - user
 Recipes
   - view playlist
   - name
@@ -171,12 +171,84 @@ Playlist
     - removePlaylistFromRecipe(:recipeId, :playlist)
   - models
     - name
-Song
-  - functions
-    - addSongToPlaylist(:songId, playlistId)
-    - removeSongToPlaylist(:songId, playlistId)
-  - models
-    - title
-    - URL
-    - image
-    - number of votes
+
+For each of the following will have functions and data models associated with them
+
+## Introduction
+
+### Purpose
+
+### Intended Audience
+
+### Intended Use
+
+### Scope
+
+### Definitions and Acronyms
+
+##  Overall Description
+
+### User Needs
+
+### Assumptions and Dependencies
+
+## System Features and Requirements
+
+### Functional Requirements
+
+- App
+- User
+- Recipe
+- Playlist
+- Song
+
+#### App
+
+##### Data Model
+
+| Name        | Description |
+| ----------- | ----------- |
+| `recipe`      | A recipe can hold information about a playlist       |
+| `playlist`   | A playlist is a list of songs        |
+
+##### Functions
+
+| Name        | Description |
+| ----------- | ----------- |
+| `login`      | Handles authentication and authorization of user       |
+
+#### Song
+
+##### Data Model
+
+| Name        | Description |
+| ----------- | ----------- |
+| `title` | Title of the song |
+| `youtubeURL` | A URL reference for YouTube |
+| `imageURL` | A URL reference for image |
+| `numberOfVotes` | The total number of votes |
+
+##### Functions
+
+| Name        | Description |
+| ----------- | ----------- |
+| `addSongToPlaylist(:songId, playlistId)`      | Add a song to a playlist       |
+| `removeSongToPlaylist(:songId, playlistId)`      | Remove a song from a playlist       |
+
+### External Interface Requirements
+
+### System Features
+
+### Nonfunctional Requirements
+
+
+
+# Next Steps
+- [ ] Create outline
+- [ ] Create list of questions
+- [ ] Clean up markdown file and push to remote repo
+
+
+
+# Resources
+- <b id="f1">1</b> [Your Guide to Writing a Software Requirements Specification (SRS) Document](https://relevant.software/blog/software-requirements-specification-srs-document) [↩](#a1)

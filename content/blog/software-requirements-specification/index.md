@@ -1,3 +1,10 @@
+---
+title: Organize this document
+date: "2021-02-28T23:46:37.121Z"
+---
+
+# Table of Contents
+1. App User Flow (#user flow)
 # User Flow
 1. User lands on app
 2. User is able to see list of recipes, for example 5 recipes
@@ -38,7 +45,7 @@ Database
     - replication
 
 
-
+## State
 
 In any given point in time, there is a different information stored in the memory of your web application that you can access via your variables, classes, data structures, etc. All the stored information, at a given instant in time, is called the application state.
 
@@ -172,29 +179,7 @@ Playlist
   - models
     - name
 
-For each of the following will have functions and data models associated with them
-
-## Introduction
-
-### Purpose
-
-### Intended Audience
-
-### Intended Use
-
-### Scope
-
-### Definitions and Acronyms
-
-##  Overall Description
-
-### User Needs
-
-### Assumptions and Dependencies
-
-## System Features and Requirements
-
-### Functional Requirements
+For each of the following will have functions and data models associated with them:
 
 - App
 - User
@@ -202,53 +187,139 @@ For each of the following will have functions and data models associated with th
 - Playlist
 - Song
 
-#### App
+### Data Model
 
-##### Data Model
-
-| Name        | Description |
-| ----------- | ----------- |
-| `recipe`      | A recipe can hold information about a playlist       |
-| `playlist`   | A playlist is a list of songs        |
-
-##### Functions
-
-| Name        | Description |
-| ----------- | ----------- |
-| `login`      | Handles authentication and authorization of user       |
-
-#### Song
-
-##### Data Model
-
-| Name        | Description |
-| ----------- | ----------- |
-| `title` | Title of the song |
-| `youtubeURL` | A URL reference for YouTube |
-| `imageURL` | A URL reference for image |
-| `numberOfVotes` | The total number of votes |
-
-##### Functions
-
-| Name        | Description |
-| ----------- | ----------- |
-| `addSongToPlaylist(:songId, playlistId)`      | Add a song to a playlist       |
-| `removeSongToPlaylist(:songId, playlistId)`      | Remove a song from a playlist       |
-
-### External Interface Requirements
-
-### System Features
-
-### Nonfunctional Requirements
+| Data Model | Name        | Description |
+| ----------- | ----------- | --- |
+| App | `app` | The application |
+| Recipe| `recipe`| A recipe can hold information about a playlist|
+| Playlist | | A playlist is a list of songs |
+| Playlist |`playlistId` | playlistId of a playlist |
+| Playlist |`title` | title of a playlist |
+| Playlist |`userId` | userId of a playlist |
+| Playlist |`totalNumberOfLikes` | totalNumberOfLikes of a playlist |
+| Song| | A song data model|
+| Song| `title`| title of song |
+| Song| `description`| description of song |
+| Song| `length`| length of song |
+| Song | `title` | Title of the song |
+| Song | `youtubeURL` | A URL reference for YouTube |
+| Song | `imageURL` | A URL reference for image |
+| Song | `numberOfVotes` | The total number of votes |
+| User | `user` | The user that is logged in |
 
 
+### Functions
 
-# Next Steps
-- [ ] Create outline
-- [ ] Create list of questions
-- [ ] Clean up markdown file and push to remote repo
+|Data Model | Name        | Description |
+| ----------- | ----------- | ---| 
+| app | `login`      | Handles authentication and authorization of user       |
+| song | `addSongToPlaylist(:songId, playlistId)`      | Add a song to a playlist       |
+| song | `removeSongToPlaylist(:songId, playlistId)`      | Remove a song from a playlist       |
+| playlist | `voteOnPlaylist(:playlistId, vote)`      | Vote on a playlist        |
+| playlist | `createNewPlaylist` | Add a new playlist |
 
 
+## Data Flow
 
-# Resources
-- <b id="f1">1</b> [Your Guide to Writing a Software Requirements Specification (SRS) Document](https://relevant.software/blog/software-requirements-specification-srs-document) [↩](#a1)
+How the data is handled in the system. You have a set of handlers (functions) that change the state of the data. `f(x) = x ^ 2`
+
+`Browser --> UI/UX --> API --> Server --> Database`
+
+Browser
+- handle user events
+  - clicks
+
+UI/UX 
+- create user-friendly
+  - where should the vote button be?
+  - pagination
+
+API 
+  - CRUD
+    - `/api/playlist/13?vote=-1`
+
+Server 
+  - Handle the api request and map to appropriate service
+  - Service will connect to the DB and execute the script
+
+Database
+  - The data models that we created are for creating the tables in the database
+  - single source of truth
+  - Update the data
+
+```
+Table: Song
+songId  playlistId  title             singer        
+23      13          Intha Porapudan   Kailash Kher
+
+Table: Playlist
+playlistId  title               userId    totalNumberOfLikes
+13          Kajan's Favourites  1004      5
+```
+
+
+### User Flow
+
+1. User lands on app
+2. User is able to see list of recipes, for example 5 recipes
+3. User is view a playlist for a recipe
+4. User is able to like a playlist a recipe
+5. App is able to sort playlist for a recipe in order of like count
+6. User is able to vote on songs in a playlist
+
+#### Data Flow
+When the user clicks on the vote down button.
+
+Browser will a API call, POST request `/api/playlist/13?vote=-1`
+
+The server will receive the request. There are routes that map an API to a `Service::Function`, follows MVC pattern (Model View Controller)
+
+```
+Server Routes to Services
+{
+  playlist: {
+    'GET': PlaylistService::GetPlaylist(playlistId),
+    'POST' PlaylistService::UpdatePlaylist(playlistId)
+  }, 
+  login: {
+    POST: UserService:login
+  }
+}
+```
+
+The server will need to process the request and delegate to the appropriate handler. 
+
+`PlaylistService` - manages all playlist related functionality
+
+`PlaylistService::voteOnPlaylist(:playlistId, vote)` - The function that will update the `vote` field based on the `playlistId`
+
+`voteOnPlaylist(13, -1)`
+
+```javascript
+// Expose some functions to update the database
+import DatabaseService
+
+function voteOnPlaylist(playlistId, vote) {
+
+  DatabaseService.connect()
+
+  DatabaseService.executeScript(
+    `
+      UPDATE playlist
+      SET totalNumberOfLikes = totalNumberOfLikes + ${vote}
+      WHERE playlistId = ${playlistId}
+    `
+  )
+}
+```
+
+```
+Table: Playlist
+playlistId  title               userId    totalNumberOfLikes
+13          Kajan's Favourites  1004      4
+```
+
+1. App is able to sort songs in a playlist in order of total number of likes
+
+

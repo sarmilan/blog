@@ -1,11 +1,11 @@
 ---
 title: Software Requirements Specification - A living document
-date: "2021-02-28T23:46:37.121Z"
+date: "2021-03-04T22:26:26.330Z"
 ---
 
 # -> Dish & Dance <-
 # Table of Contents
-1.  [App User Flow] (#user-flow)
+1.  [App User Flow](#user-flow)
 ## User Flow
 1. User lands on app
 2. User is able to see list of recipes, for example 5 recipes
